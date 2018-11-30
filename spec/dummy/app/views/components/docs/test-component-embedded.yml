@@ -1,0 +1,10 @@
+name: Test component embedded in HTML
+description: |
+  A test component that is shown as an example where it is embedded within a
+  wrapper.
+embed_in: |
+  <div class="wrapper">
+    <%= component %>
+  </div>
+examples:
+  default:
