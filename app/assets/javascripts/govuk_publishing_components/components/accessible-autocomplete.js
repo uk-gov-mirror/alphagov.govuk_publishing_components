@@ -27,7 +27,8 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
         // https://github.com/alphagov/accessible-autocomplete/issues/322
         var value = $selectElem.children("option").filter(function () { return $(this).html() == label; }).val();
         if (typeof value !== 'undefined') {
-          $selectElem.val(value).change().find('option:first-child').attr('data-selected', value);
+          var j = $selectElem.val(value);
+          j.change().find('option:first-child').attr('data-selected', value);
         }
       };
 
