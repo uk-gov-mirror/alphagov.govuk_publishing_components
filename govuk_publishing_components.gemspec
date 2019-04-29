@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{node_modules,app,config,db,lib}/**/*", "DEVELOPMENT.md", "LICENCE.md", "Rakefile", "README.md"]
 
-  s.add_dependency "govspeak", ">= 5.0.3"
   s.add_dependency "govuk_app_config"
   s.add_dependency "govuk_frontend_toolkit"
   s.add_dependency "rails", ">= 5.0.0.1"
@@ -27,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara", "~> 2.14.4"
   s.add_development_dependency "foreman", "~> 0.64"
   s.add_development_dependency "gds-api-adapters"
+  # s.add_development_dependency "govspeak", path: "../govspeak"
   s.add_development_dependency "govuk-lint", "~> 3.11"
   s.add_development_dependency "govuk_schemas", "~> 3.2"
   s.add_development_dependency "jasmine", "~> 2.4.0"
