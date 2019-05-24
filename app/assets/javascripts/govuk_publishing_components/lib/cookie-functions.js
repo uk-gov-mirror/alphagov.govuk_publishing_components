@@ -12,8 +12,8 @@
 
   var COOKIE_CATEGORIES = {
     "cookie_policy": "essential",
-    "govuk_not_first_visit": "usage",
-    "govuk_browser_upgrade_dismisssed": "essential",
+    "govuk_not_first_visit": "essential",
+    "govuk_browser_upgrade_dismissed": "essential",
     "seen_cookie_message": "essential",
     "govuk_surveySeenUserSatisfactionSurvey": "essential",
     "govuk_takenUserSatisfactionSurvey": "essential",
@@ -95,6 +95,15 @@
 
     for (var cookieType in options) {
       cookieConsentJSON[cookieType] = options[cookieType]
+
+      // Delete cookies of that type if consent being set to false
+      if (!options[cookieType]) {
+        for (var cookie in COOKIE_CATEGORIES) {
+          if (COOKIE_CATEGORIES[cookie] === cookieType) {
+            window.GOVUK.cookie(cookie, false)
+          }
+        }
+      }
     }
 
     window.GOVUK.setCookie('cookie_policy', JSON.stringify(cookieConsentJSON))
@@ -102,9 +111,6 @@
 
   window.GOVUK.checkConsentCookie = function (cookieName, cookieValue) {
     var consent = JSON.parse(window.GOVUK.getCookie("cookie_policy"))
-
-    console.log(cookieName)
-    console.log(COOKIE_CATEGORIES[cookieName])
 
     // If we're setting the consent cookie OR deleting a cookie, allow by default
     if (cookieName === "cookie_policy" || cookieValue === null) {
@@ -114,12 +120,9 @@
     // Otherwise, check consent
     if (COOKIE_CATEGORIES[cookieName]) {
       var cookieCategory = COOKIE_CATEGORIES[cookieName]
-      console.log(consent[cookieCategory])
       return consent[cookieCategory]
     } else {
-      // What do we do if cookie is not known to us???
-      // Deny setting the cookie?
-      console.log("didn't try to set")
+      // If cookie is not known to us, deny
       return false
     }
   }
