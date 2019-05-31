@@ -100,7 +100,7 @@
       if (!options[cookieType]) {
         for (var cookie in COOKIE_CATEGORIES) {
           if (COOKIE_CATEGORIES[cookie] === cookieType) {
-            window.GOVUK.cookie(cookie, false)
+            document.cookie = cookie + '=;expires=' + new Date + ';domain=' + window.location.hostname + ';path=/'
           }
         }
       }
