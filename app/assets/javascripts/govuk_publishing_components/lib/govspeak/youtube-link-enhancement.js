@@ -1,50 +1,102 @@
-// = require govuk_publishing_components/vendor/jquery-ui-1.10.2.custom
-// = require govuk_publishing_components/vendor/jquery.player.min
-
-window.GOVUK = window.GOVUK || {};
-
-(function (GOVUK, $) {
+(function () {
   'use strict'
+  window.GOVUK = window.GOVUK || {}
 
   var YoutubeLinkEnhancement = function ($element) {
     this.$element = $element
+    // store details of all the videos from the page
+    this.playList = []
+    // store all youtube player objects
+    this.players = []
   }
 
   YoutubeLinkEnhancement.prototype.init = function () {
-    var $youtubeLinks = this.$element.find('a[href*="youtube.com"], a[href*="youtu.be"]')
+    var $youtubeLinks = this.$element[0].querySelectorAll('a[href*="youtube.com"], a[href*="youtu.be"]')
     var _this = this
+    var apiScriptInserted = false
 
-    $youtubeLinks.each(function () {
-      var $link = $(this)
+    for (var i = 0; i < $youtubeLinks.length; ++i) {
+      var $link = $youtubeLinks[i]
       // if users have disabled 'campaigns' cookie in the new cookie page settings
       // we also need to disable the youtube video embed
       if (_this.hasDisabledEmbed($link) || !YoutubeLinkEnhancement.campaignCookies()) {
         return true
       }
-
-      var videoId = YoutubeLinkEnhancement.parseVideoId($link.attr('href'))
-      if (videoId) {
-        _this.embedVideo($link, videoId)
+      // insert script only once, but only if a video in the list is set to embed
+      // and campaign cookies are enabled
+      if (!apiScriptInserted) {
+        insertApiScript(this.playList, this.players)
+        apiScriptInserted = true
       }
-    })
+      var videoId = YoutubeLinkEnhancement.parseVideoId($link.getAttribute('href'))
+      if (videoId) {
+        _this.setupVideo($link, videoId)
+      }
+    }
+  }
+
+  var playerApiReady = function (playList, players) {
+    // youtube iframe api is very pick about knowing when it's ready,
+    // so they want this function to be on the window object
+    window.onYouTubePlayerAPIReady = function () {
+      // youtube API provides the variable when it is definitely ready
+      for (var i = 0; i < playList.length; i++) {
+        var currentPlayer = createVideoPlayer(playList[i])
+        players[i] = currentPlayer
+      }
+    }
+  }
+
+  var insertApiScript = function (playList, players) {
+    var tag = document.createElement('script')
+    tag.src = 'https://www.youtube.com/player_api'
+    var firstScriptTag = document.getElementsByTagName('script')[0]
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+
+    playerApiReady(playList, players)
   }
 
   YoutubeLinkEnhancement.prototype.hasDisabledEmbed = function ($link) {
-    return $link.attr('data-youtube-player') === 'off'
+    return $link.getAttribute('data-youtube-player') === 'off'
   }
 
-  YoutubeLinkEnhancement.prototype.embedVideo = function ($link, videoId) {
-    var $mediaPlayer = $('<span class="media-player" />')
+  YoutubeLinkEnhancement.prototype.setupVideo = function ($link, videoId) {
+    var parentPara = $link.parentNode
+    var parentContainer = parentPara.parentNode
 
-    $link.parent().replaceWith($mediaPlayer)
+    var youtubeVideoContainer = document.createElement('div')
+    youtubeVideoContainer.className += 'youtube-video-container'
+    youtubeVideoContainer.innerHTML = '<span id="' + videoId + '"></span>'
 
-    var protocol = this.protocol()
+    parentContainer.replaceChild(youtubeVideoContainer, parentPara)
+    this.playList.push({
+      id: videoId,
+      videoId: videoId,
+      title: $link.textContent
+    })
+  }
 
-    $mediaPlayer.player({
-      id: YoutubeLinkEnhancement.nextId(),
-      media: videoId,
-      captions: this.captions($link),
-      url: protocol + '//www.youtube.com/apiplayer?enablejsapi=1&version=3&playerapiid='
+  var createVideoPlayer = function (playlistItem) {
+    return new window.YT.Player(playlistItem.id, {
+      videoId: playlistItem.videoId,
+      host: 'https://www.youtube-nocookie.com',
+      playerVars: {
+        // enables the player to be controlled via IFrame or JavaScript Player API calls
+        enablejsapi: 1,
+        // don't show related videos
+        rel: 0,
+        // disable option to allow single key shortcuts due to (WCAG SC 2.1.4)
+        // https://www.w3.org/WAI/WCAG21/quickref/#character-key-shortcuts
+        disablekb: 1,
+        // prevent the YouTube logo from displaying in the control bar
+        modestbranding: 1
+      },
+      events: {
+        'onReady': function (event) {
+          // update iframe title attribute once video is ready
+          event.target.a.setAttribute('title', playlistItem.title)
+        }
+      }
     })
   }
 
@@ -56,16 +108,9 @@ window.GOVUK = window.GOVUK || {};
     return scheme
   }
 
-  YoutubeLinkEnhancement.prototype.captions = function ($link) {
-    var $captions = $link.siblings('.captions')
-    if ($captions.length) {
-      return $captions.first().attr('href')
-    }
-  }
-
   YoutubeLinkEnhancement.campaignCookies = function () {
-    var cookiePolicy = window.GOVUK.getCookie('cookie_policy') ? JSON.parse(window.GOVUK.getCookie('cookie_policy')) : 'undefined'
-    return cookiePolicy !== 'undefined' ? cookiePolicy.campaigns : true
+    var cookiePolicy = window.GOVUK.getConsentCookie()
+    return cookiePolicy !== null ? cookiePolicy.campaigns : true
   }
 
   YoutubeLinkEnhancement.nextId = function () {
@@ -99,5 +144,5 @@ window.GOVUK = window.GOVUK || {};
     }
   }
 
-  GOVUK.GovspeakYoutubeLinkEnhancement = YoutubeLinkEnhancement
-})(window.GOVUK, window.jQuery)
+  window.GOVUK.GovspeakYoutubeLinkEnhancement = YoutubeLinkEnhancement
+})(window.GOVUK)
