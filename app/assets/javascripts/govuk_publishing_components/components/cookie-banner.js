@@ -32,6 +32,13 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
   CookieBanner.prototype.showCookieMessage = function () {
     var newCookieBanner = document.querySelector('.gem-c-cookie-banner--new')
+
+    if (newCookieBanner && !window.GOVUK.cookie('cookie_policy')) {
+      if (window.GOVUK.cookie("seen_cookie_message") === "true") {
+        window.GOVUK.cookie("seen_cookie_message", false)
+      }
+    }
+
     var hasCookieMessage = (this.$module && window.GOVUK.cookie('seen_cookie_message') !== 'true')
     if (hasCookieMessage) {
       this.$module.style.display = 'block'
