@@ -131,7 +131,7 @@ describe('AccessibilityTest', function () {
       var errorMessage = renderErrorMessage({
         id: 'color-contrast',
         problem: 'Elements must have sufficient color contrast',
-        html: '<a href="#" style="">Low contrast</a>',
+        html: '<a href="#">Low contrast</a>',
         selector: 'a[href="\\#"]',
         helpUrl: 'https://dequeuniversity.com/rules/axe/3.2/color-contrast?application=axeAPI'
       })
@@ -201,7 +201,7 @@ describe('AccessibilityTest', function () {
         renderErrorMessage({
           id: 'color-contrast',
           problem: 'Elements must have sufficient color contrast',
-          html: '<a href="#" style="">Low contrast</a>',
+          html: '<a href="#">Low contrast</a>',
           selector: 'a[href="\\#"]',
           helpUrl: 'https://dequeuniversity.com/rules/axe/3.2/color-contrast?application=axeAPI'
         }) +

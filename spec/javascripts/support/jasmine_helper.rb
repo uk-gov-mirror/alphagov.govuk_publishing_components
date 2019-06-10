@@ -12,5 +12,5 @@
 Jasmine.configure do |config|
   config.prevent_phantom_js_auto_install = true
   config.runner_browser = :chromeheadless
-  config.show_console_log = true
+  config.show_console_log = false
 end

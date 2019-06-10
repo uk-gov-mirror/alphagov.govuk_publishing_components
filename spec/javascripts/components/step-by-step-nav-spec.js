@@ -391,7 +391,7 @@ describe('A stepnav module', function () {
     });
 
     afterEach(function () {
-      sessionStorage.removeItem('unique-id');
+      //sessionStorage.removeItem('unique-id');
     });
 
     it("remembers individually opened steps", function () {
@@ -416,16 +416,16 @@ describe('A stepnav module', function () {
       var $stepLink2 = $element.find('#topic-step-two .js-toggle-panel');
 
       $showHideAllButton.click(); // show all
-      expect(sessionStorage.getItem('unique-id')).toBe('["topic-step-one","topic-step-two","topic-step-three"]');
+      expect(sessionStorage.getItem('unique-id')).toEqual('["topic-step-one","topic-step-two","topic-step-three"]');
 
       $stepLink2.click(); // close
-      expect(sessionStorage.getItem('unique-id')).toBe('["topic-step-one","topic-step-three"]');
+      expect(sessionStorage.getItem('unique-id')).toEqual('["topic-step-one","topic-step-three"]');
 
       $showHideAllButton.click(); // show all
-      expect(sessionStorage.getItem('unique-id')).toBe('["topic-step-one","topic-step-two","topic-step-three"]');
+      expect(sessionStorage.getItem('unique-id')).toEqual('["topic-step-one","topic-step-two","topic-step-three"]');
 
       $showHideAllButton.click(); // hide all
-      expect(sessionStorage.getItem('unique-id')).toBe(null); // 'hide all' removes the session data entirely
+      expect(sessionStorage.getItem('unique-id')).toEqual(null); // 'hide all' removes the session data entirely
     });
   });
 
@@ -548,7 +548,7 @@ describe('A stepnav module', function () {
       expect($step3).not.toHaveClass('step-is-shown');
 
       $step1.click();
-      expect(sessionStorage.getItem('unique-id')).toBe('["topic-step-one","topic-step-two","topic-step-three"]'); // i.e. unchanged
+      expect(sessionStorage.getItem('unique-id')).toEqual('["topic-step-one","topic-step-two","topic-step-three"]'); // i.e. unchanged
     });
   });
 
@@ -803,47 +803,48 @@ describe('A stepnav module', function () {
 
     it("puts a clicked link in session storage", function () {
       $element.find('.js-link[data-position="3.1"]').click();
-      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toBe('3.1');
+      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toEqual('3.1');
     });
 
     it("does not put an external clicked link in session storage", function () {
       $element.find('.js-link[data-position="3.3"]').click();
-      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toBe(null);
+      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toEqual(null);
     });
 
     it("highlights the first active link and its parent step if no sessionStorage value is set", function () {
-      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toBe(null);
+      console.log(sessionStorage.getItem('govuk-step-nav-active-link_unique-id'))
+      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toEqual(null);
       var $active = $element.find('.js-link[data-position="2.1"]');
       expect($active.closest('.js-list-item')).toHaveClass('gem-c-step-nav__list-item--active');
       expect($active.closest('.js-step')).toHaveClass('gem-c-step-nav__step--active');
-      expect($element.find('.gem-c-step-nav__list-item--active').length).toBe(1);
-      expect($element.find('.gem-c-step-nav__list-item--active').length).toBe(1);
-      expect($element.find('.step-is-shown').length).toBe(1);
+      expect($element.find('.gem-c-step-nav__list-item--active').length).toEqual(1);
+      expect($element.find('.gem-c-step-nav__list-item--active').length).toEqual(1);
+      expect($element.find('.step-is-shown').length).toEqual(1);
     });
 
     it("ensures only the active link has a hidden span for screen readers to indicate which is the active link", function () {
       var $spans = $element.find('.js-link .visuallyhidden');
-      expect($spans.length).toBe(1);
+      expect($spans.length).toEqual(1);
     });
 
     it("highlights a clicked #content link and its parent step, and removes other highlighting", function () {
-      expect($element.find(('.gem-c-step-nav__list-item--active')).length).toBe(1);
+      expect($element.find(('.gem-c-step-nav__list-item--active')).length).toEqual(1);
 
       var $firstLink = $element.find('.js-link[data-position="3.4"]');
       $firstLink.click();
-      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toBe('3.4');
+      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toEqual('3.4');
       expect($firstLink.closest('.js-list-item')).toHaveClass('gem-c-step-nav__list-item--active');
       expect($firstLink.closest('.js-step')).toHaveClass('gem-c-step-nav__step--active');
-      expect($element.find(('.gem-c-step-nav__list-item--active')).length).toBe(1);
-      expect($element.find(('.gem-c-step-nav__step--active')).length).toBe(1);
+      expect($element.find(('.gem-c-step-nav__list-item--active')).length).toEqual(1);
+      expect($element.find(('.gem-c-step-nav__step--active')).length).toEqual(1);
 
       var $secondLink = $element.find('.js-link[data-position="3.5"]');
       $secondLink.click();
-      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toBe('3.5');
+      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toEqual('3.5');
       expect($secondLink.closest('.js-list-item')).toHaveClass('gem-c-step-nav__list-item--active');
       expect($secondLink.closest('.js-step')).toHaveClass('gem-c-step-nav__step--active');
-      expect($element.find(('.gem-c-step-nav__list-item--active')).length).toBe(1);
-      expect($element.find(('.gem-c-step-nav__step--active')).length).toBe(1);
+      expect($element.find(('.gem-c-step-nav__list-item--active')).length).toEqual(1);
+      expect($element.find(('.gem-c-step-nav__step--active')).length).toEqual(1);
     });
   });
 
@@ -926,9 +927,9 @@ describe('A stepnav module', function () {
     });
 
     it("highlights the first active link if no sessionStorage value is set", function () {
-      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toBe(null);
+      expect(sessionStorage.getItem('govuk-step-nav-active-link_unique-id')).toEqual(null);
       expect($element.find('.js-link[data-position="2.1"]').closest('.js-list-item')).toHaveClass('gem-c-step-nav__list-item--active');
-      expect($element.find(('.gem-c-step-nav__list-item--active')).length).toBe(1);
+      expect($element.find(('.gem-c-step-nav__list-item--active')).length).toEqual(1);
     });
   });
 
