@@ -15,6 +15,7 @@
 * Override vertical align: top for inline buttons (PR #912)
 * Change cookie banner text to green (PR #912)
 * Accessibility and design fixes for cookie banner (#912)
+* Add ministers to organisation page schema. (PR #921)
 
 ## 16.29.0
 
