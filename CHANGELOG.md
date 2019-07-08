@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## Unreleased
+
+* Replace accessible media player with Youtube player (PR #908)
+
 ## 17.12.1
 
 * Reset focus when feedback component is closed before submit (PR #975)
