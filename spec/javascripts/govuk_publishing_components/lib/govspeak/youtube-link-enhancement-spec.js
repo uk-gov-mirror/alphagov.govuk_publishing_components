@@ -31,8 +31,8 @@ describe('Youtube link enhancement', function () {
       var enhancement = new GOVUK.GovspeakYoutubeLinkEnhancement($(element))
       enhancement.init()
 
-      expect(document.querySelectorAll('.youtube-video-container [id="0XpAtr24uUQ"]').length).toBe(1)
-      expect(document.querySelectorAll('[id="0XpAtr24uUQ"] p, [id="0XpAtr24uUQ"] a').length).toBe(0)
+      expect(document.querySelectorAll('.youtube-video-container [id^="0XpAtr24uUQ"]').length).toBe(1)
+      expect(document.querySelectorAll('[id^="0XpAtr24uUQ"] p, [id^="0XpAtr24uUQ"] a').length).toBe(0)
     })
 
     it('doesn\'t replace non Youtube links', function () {
@@ -58,7 +58,7 @@ describe('Youtube link enhancement', function () {
       var enhancement = new GOVUK.GovspeakYoutubeLinkEnhancement($(element))
       enhancement.init()
 
-      expect(document.querySelectorAll('.youtube-video-container [id="0XpAtr24uUQ"]').length).toBe(0)
+      expect(document.querySelectorAll('.youtube-video-container [id^="0XpAtr24uUQ"]').length).toBe(0)
       expect(document.querySelectorAll('.gem-c-govspeak p, .gem-c-govspeak a').length).toBe(2)
     })
   })
@@ -122,8 +122,8 @@ describe('Youtube link enhancement', function () {
       var enhancement = new GOVUK.GovspeakYoutubeLinkEnhancement($(element))
       enhancement.init()
 
-      expect(document.querySelectorAll('.youtube-video-container [id="0XpAtr24uUQ"]').length).toBe(1)
-      expect(document.querySelectorAll('[id="0XpAtr24uUQ"] p, [id="0XpAtr24uUQ"] a').length).toBe(0)
+      expect(document.querySelectorAll('.youtube-video-container [id^="0XpAtr24uUQ"]').length).toBe(1)
+      expect(document.querySelectorAll('[id^="0XpAtr24uUQ"] p, [id^="0XpAtr24uUQ"] a').length).toBe(0)
     })
   })
 

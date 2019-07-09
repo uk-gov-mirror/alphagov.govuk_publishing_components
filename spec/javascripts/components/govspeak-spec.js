@@ -35,7 +35,7 @@ describe('Govspeak', function () {
       govspeakModule.start($(element))
 
       expect(document.querySelectorAll('.youtube-video-container').length).toBe(1)
-      expect(document.querySelectorAll("[id='0XpAtr24uUQ']").length).toBe(1)
+      expect(document.querySelectorAll("[id^='0XpAtr24uUQ']").length).toBe(1)
     })
 
     it('allows disabling embeds of youtube videos', function () {
@@ -50,7 +50,7 @@ describe('Govspeak', function () {
       govspeakModule.start($(element))
 
       expect(document.querySelectorAll('.youtube-video-container').length).toBe(0)
-      expect(document.querySelectorAll("[id='0XpAtr24uUQ']").length).toBe(0)
+      expect(document.querySelectorAll("[id^='0XpAtr24uUQ']").length).toBe(0)
     })
   })
 

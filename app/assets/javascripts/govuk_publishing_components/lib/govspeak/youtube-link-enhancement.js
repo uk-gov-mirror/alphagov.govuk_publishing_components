@@ -17,6 +17,7 @@
 
     for (var i = 0; i < $youtubeLinks.length; ++i) {
       var $link = $youtubeLinks[i]
+
       // if users have disabled 'campaigns' cookie in the new cookie page settings
       // we also need to disable the youtube video embed
       if (_this.hasDisabledEmbed($link) || !YoutubeLinkEnhancement.campaignCookies()) {
@@ -61,16 +62,19 @@
   }
 
   YoutubeLinkEnhancement.prototype.setupVideo = function ($link, videoId) {
+    // Handle if the same video is inserted into the page more than once
+    var videoWrapperId = videoId + Math.random().toString()
+
     var parentPara = $link.parentNode
     var parentContainer = parentPara.parentNode
 
     var youtubeVideoContainer = document.createElement('div')
     youtubeVideoContainer.className += 'youtube-video-container'
-    youtubeVideoContainer.innerHTML = '<span id="' + videoId + '"></span>'
+    youtubeVideoContainer.innerHTML = '<span id="' + videoWrapperId + '"></span>'
 
     parentContainer.replaceChild(youtubeVideoContainer, parentPara)
     this.playList.push({
-      id: videoId,
+      id: videoWrapperId,
       videoId: videoId,
       title: $link.textContent
     })
