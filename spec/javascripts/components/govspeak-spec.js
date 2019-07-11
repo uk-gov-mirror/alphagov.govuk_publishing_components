@@ -7,18 +7,6 @@ describe('Govspeak', function () {
   describe('youtube enhancement', function () {
     var container
 
-    beforeEach(function () {
-      // For some reason, JSON.parse on the cookie works in the browser, but fails in Jasmine tests.
-      // It seems to be due to extra escaping of quotes when the code is run in the tests, which means JSON.parse doesn't
-      // work as expected. So we'll stub this value instead.
-      spyOn(JSON, 'parse').and.returnValue({
-        'essential': true,
-        'settings': true,
-        'usage': true
-      })
-      window.GOVUK.cookie('cookie_policy', null)
-    })
-
     afterEach(function () {
       document.body.removeChild(container)
     })
@@ -35,7 +23,6 @@ describe('Govspeak', function () {
       govspeakModule.start($(element))
 
       expect(document.querySelectorAll('.youtube-video-container').length).toBe(1)
-      expect(document.querySelectorAll("[id^='0XpAtr24uUQ']").length).toBe(1)
     })
 
     it('allows disabling embeds of youtube videos', function () {
@@ -50,7 +37,6 @@ describe('Govspeak', function () {
       govspeakModule.start($(element))
 
       expect(document.querySelectorAll('.youtube-video-container').length).toBe(0)
-      expect(document.querySelectorAll("[id^='0XpAtr24uUQ']").length).toBe(0)
     })
   })
 
