@@ -10,6 +10,7 @@
 ## Unreleased
 
 * Remove expectation that sprockets is installed when used in a Rails app (PR #999)
+* Set the origin when rendering the YouTube player (PR #1004)
 
 ## 17.18.0
 
