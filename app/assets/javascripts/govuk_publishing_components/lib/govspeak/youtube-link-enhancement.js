@@ -51,7 +51,7 @@
     var videoInsert = function () {
       new window.YT.Player(elementId, { // eslint-disable-line no-new
         videoId: videoId,
-        host: 'https://youtube-nocookie.com',
+        host: 'https://www.youtube-nocookie.com',
         playerVars: {
           // enables the player to be controlled via IFrame or JavaScript Player API calls
           enablejsapi: 1,
@@ -135,7 +135,7 @@
   // an array of functions to be called once the Youtube Player API is ready
   YoutubeLinkEnhancement.queuedInserts = []
 
-  window.onYouTubePlayerAPIReady = function () {
+  window.onYouTubeIframeAPIReady = function () {
     YoutubeLinkEnhancement.playerApiReady = true
     for (var i = 0; i < YoutubeLinkEnhancement.queuedInserts.length; i++) {
       YoutubeLinkEnhancement.queuedInserts[i].call()
