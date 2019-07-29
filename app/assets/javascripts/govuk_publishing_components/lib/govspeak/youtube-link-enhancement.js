@@ -51,7 +51,6 @@
     var videoInsert = function () {
       new window.YT.Player(elementId, { // eslint-disable-line no-new
         videoId: videoId,
-        host: 'https://www.youtube-nocookie.com',
         playerVars: {
           // enables the player to be controlled via IFrame or JavaScript Player API calls
           enablejsapi: 1,
