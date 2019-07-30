@@ -22,6 +22,7 @@
       var $link = $youtubeLinks[i]
 
       var videoId = YoutubeLinkEnhancement.parseVideoId($link.getAttribute('href'))
+      console.log("VIDEO LINK:" + $link.getAttribute('href'))
 
       if (!this.hasDisabledEmbed($link) && videoId) {
         this.setupVideo($link, videoId)
@@ -53,7 +54,7 @@
       console.log("SETTING UP PLAYER")
       new window.YT.Player(elementId, { // eslint-disable-line no-new
         videoId: videoId,
-        host: 'http://www.youtube-nocookie.com',
+        host: window.location.protocol + '//www.youtube-nocookie.com',
         playerVars: {
           // enables the player to be controlled via IFrame or JavaScript Player API calls
           enablejsapi: 1,
