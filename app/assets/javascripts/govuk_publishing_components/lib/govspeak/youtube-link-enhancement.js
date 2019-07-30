@@ -48,7 +48,9 @@
   }
 
   YoutubeLinkEnhancement.prototype.insertVideo = function (elementId, videoId, title) {
+    console.log("SETTING UP PLAYER FUNCTION")
     var videoInsert = function () {
+      console.log("SETTING UP PLAYER")
       new window.YT.Player(elementId, { // eslint-disable-line no-new
         videoId: videoId,
         host: window.location.protocol + '//www.youtube-nocookie.com',
@@ -137,6 +139,7 @@
 
   window.onYouTubeIframeAPIReady = function () {
     YoutubeLinkEnhancement.playerApiReady = true
+    console.log("PLAYER READY")
     for (var i = 0; i < YoutubeLinkEnhancement.queuedInserts.length; i++) {
       YoutubeLinkEnhancement.queuedInserts[i].call()
     }
