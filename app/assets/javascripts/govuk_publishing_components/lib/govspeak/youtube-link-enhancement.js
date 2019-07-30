@@ -69,12 +69,6 @@
           disablekb: 1,
           // prevent the YouTube logo from displaying in the control bar
           modestbranding: 1
-        },
-        events: {
-          onReady: function (event) {
-            // update iframe title attribute once video is ready
-            event.target.a.setAttribute('title', title + ' (video)')
-          }
         }
       })
     }
