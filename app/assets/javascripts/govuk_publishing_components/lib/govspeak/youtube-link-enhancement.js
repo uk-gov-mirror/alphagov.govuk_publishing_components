@@ -56,7 +56,7 @@
       console.log("SETTING UP PLAYER")
       new window.YT.Player(elementId, { // eslint-disable-line no-new
         videoId: videoId,
-        host: window.location.protocol + '//www.youtube-nocookie.com',
+        host: '//www.youtube-nocookie.com',
         playerVars: {
           // enables the player to be controlled via IFrame or JavaScript Player API calls
           enablejsapi: 1,
@@ -99,7 +99,7 @@
     }
 
     var tag = document.createElement('script')
-    tag.src = 'https://www.youtube.com/iframe_api'
+    tag.src = '//www.youtube.com/iframe_api'
     var firstScriptTag = document.getElementsByTagName('script')[0]
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
     this.apiScriptInserted = true
