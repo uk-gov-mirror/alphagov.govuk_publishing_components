@@ -21,6 +21,9 @@
     for (var i = 0; i < $youtubeLinks.length; ++i) {
       var $link = $youtubeLinks[i]
 
+      var httpsHref = $link.getAttribute('href').replace('http://', 'https://')
+      $link.setAttribute('href', httpsHref)
+
       var videoId = YoutubeLinkEnhancement.parseVideoId($link.getAttribute('href'))
       console.log("VIDEO LINK:" + $link.getAttribute('href'))
 
