@@ -44,7 +44,6 @@
     var parentContainer = parentPara.parentNode
 
     var youtubeVideoContainer = document.createElement('div')
-    youtubeVideoContainer.className += 'gem-c-govspeak__youtube-video'
     youtubeVideoContainer.innerHTML = '<span id="' + elementId + '" data-video-id="' + videoId + '"></span>'
 
     parentContainer.replaceChild(youtubeVideoContainer, parentPara)
