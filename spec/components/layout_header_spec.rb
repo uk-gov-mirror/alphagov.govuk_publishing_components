@@ -61,4 +61,10 @@ describe "Layout header", type: :view do
 
     assert_select ".gem-c-layout-header--no-bottom-border"
   end
+
+  it "renders a search bar" do
+    render_component(environment: 'public', search: true)
+
+    assert_select ".gem-c-layout-header .gem-c-search"
+  end
 end
