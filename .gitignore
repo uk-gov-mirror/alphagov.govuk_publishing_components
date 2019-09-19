@@ -8,4 +8,4 @@ doc
 .yardoc
 
 tmp/failures.txt
-node_modules
+# node_modules
