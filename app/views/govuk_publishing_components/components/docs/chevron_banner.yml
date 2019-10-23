@@ -15,7 +15,7 @@ examples:
   default:
     data:
       href: '/test-link'
-      text: 'This is some text'
+      text: 'This is some really long text to see how the chevron looks'
   with_hover_border:
     data:
       href: '/test-link'
