@@ -1,4 +1,4 @@
-@import "govuk/components/panel/panel";
+// requires govuk-frotend panel compoennt
 
 .gem-c-panel__prepend {
   @include govuk-font($size: 24, $weight: bold);

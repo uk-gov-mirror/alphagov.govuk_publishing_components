@@ -1,4 +1,4 @@
-@import "govuk/components/checkboxes/checkboxes";
+// requires govuk-frontend checkboxes component
 
 .govuk-checkboxes--nested {
   margin-left: -(govuk-spacing(4) + 2px); //22px

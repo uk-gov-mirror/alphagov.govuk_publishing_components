@@ -1,5 +1,4 @@
-@import "govuk/components/header/header";
-@import "govuk/components/tag/tag";
+// requires govuk-frontend tag and header components
 
 .gem-c-layout-header--production .govuk-header__container {
   border-bottom-color: govuk-colour("red", $legacy: "bright-red");
