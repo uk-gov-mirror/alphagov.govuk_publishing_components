@@ -1,4 +1,4 @@
-name: Accordion (experimental)
+name: Accordion (experimental) test
 description: The accordion component lets users show and hide sections of related content on a page.
 govuk_frontend_components:
   - accordion
