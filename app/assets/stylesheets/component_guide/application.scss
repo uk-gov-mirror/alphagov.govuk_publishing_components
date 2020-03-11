@@ -1,13 +1,29 @@
 // This file contains the styles for the Component Guide.
 
-@import "govuk_publishing_components/components/helpers/govuk-frontend-settings";
+@import 'govuk_publishing_components/govuk_frontend_support';
+@import 'govuk_publishing_components/component_support';
 @import "govuk_publishing_components/components/helpers/markdown-typography";
-@import "govuk/settings/all";
-@import "govuk/tools/all";
-@import "govuk/helpers/all";
-@import "govuk/core/all";
 
-@import "govuk_publishing_components/all_components";
+// These are the components used in the component guide
+// if they are also included in an application, duplicate CSS will be
+// loaded in the component guide, which makes inspecting the CSS tree difficult
+@import 'govuk_publishing_components/components/_title';
+@import 'govuk_publishing_components/components/_search';
+@import 'govuk_publishing_components/components/_details';
+@import 'govuk_publishing_components/components/_textarea';
+@import 'govuk_publishing_components/components/_lead-paragraph';
+@import 'govuk_publishing_components/components/_layout-header';
+@import 'govuk_publishing_components/components/_breadcrumbs';
+@import 'govuk_publishing_components/components/_layout-footer';
+
+// @import "govuk_publishing_components/components/helpers/govuk-frontend-settings";
+// @import "govuk_publishing_components/components/helpers/markdown-typography";
+// @import "govuk/settings/all";
+// @import "govuk/tools/all";
+// @import "govuk/helpers/all";
+// @import "govuk/core/all";
+//
+// @import "govuk_publishing_components/all_components";
 
 $gem-guide-border-width: 1px;
 
