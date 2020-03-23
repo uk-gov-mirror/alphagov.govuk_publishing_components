@@ -28,7 +28,8 @@
     '_gid': 'usage',
     '_gat': 'usage',
     'JS-Detection': 'usage',
-    'TLSversion': 'usage'
+    'TLSversion': 'usage',
+    'multivariatetest_cohort_coronavirus_extremely_vulnerable_rate_limit_202003': 'essential'
   }
 
   /*
