@@ -5,12 +5,11 @@ module GovukPublishingComponents
         new(*args).output
       end
 
-      attr_reader :content_item, :request, :prioritise_taxon_breadcrumbs
+      attr_reader :content_item, :request
 
-      def initialize(content_item, request, prioritise_taxon_breadcrumbs)
+      def initialize(content_item, request)
         @content_item = content_item
         @request = request
-        @prioritise_taxon_breadcrumbs = prioritise_taxon_breadcrumbs
       end
 
       def content_item_navigation
@@ -70,11 +69,6 @@ module GovukPublishingComponents
           {
             step_by_step: false,
             breadcrumbs: navigation.breadcrumbs,
-          }
-        elsif navigation.content_is_tagged_to_a_live_taxon? && prioritise_taxon_breadcrumbs
-          {
-            step_by_step: false,
-            breadcrumbs: navigation.taxon_breadcrumbs,
           }
         elsif navigation.content_tagged_to_mainstream_browse_pages?
           {
