@@ -11,6 +11,7 @@
 
 * Modify Step nav header component to support custom tracking ([PR #1533](https://github.com/alphagov/govuk_publishing_components/pull/1533))
 * Remove prioritise_taxon_breadcrumbs argument from contextual breadcrumbs component ([PR #1534](https://github.com/alphagov/govuk_publishing_components/pull/1534))
+* Remove showing breadcrumbs based on whether the document has currated related links ([PR #1534](https://github.com/alphagov/govuk_publishing_components/pull/1534))
 
 ## 21.53.0
 

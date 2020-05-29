@@ -14,11 +14,6 @@ describe "ContextualBreadcrumbs", type: :view do
     content_item
   end
 
-  def remove_curated_related_item(content_item)
-    content_item["links"]["ordered_related_items"] = nil
-    content_item
-  end
-
   def set_parent_titles_to_businesses(content_item)
     content_item["links"]["parent"][0]["title"] = "Business and self-employed"
     content_item["links"]["parent"][0]["links"]["parent"][0]["title"] = "Licences and licence applications"
@@ -34,7 +29,6 @@ describe "ContextualBreadcrumbs", type: :view do
   it "renders breadcrumbs that collapse on mobile by default" do
     content_item = example_document_for("guide", "guide")
     content_item = remove_mainstream_browse(content_item)
-    content_item = remove_curated_related_item(content_item)
     content_item = set_live_taxons(content_item)
     render_component(content_item: content_item)
     assert_select ".gem-c-breadcrumbs.gem-c-breadcrumbs--collapse-on-mobile"
@@ -43,7 +37,6 @@ describe "ContextualBreadcrumbs", type: :view do
   it "renders breadcrumbs that don't collapse on mobile if flag is passed" do
     content_item = example_document_for("guide", "guide")
     content_item = remove_mainstream_browse(content_item)
-    content_item = remove_curated_related_item(content_item)
     content_item = set_live_taxons(content_item)
     render_component(content_item: content_item, collapse_on_mobile: false)
     assert_select ".gem-c-breadcrumbs.gem-c-breadcrumbs--collapse-on-mobile", false
@@ -68,20 +61,9 @@ describe "ContextualBreadcrumbs", type: :view do
     assert_select ".gem-c-breadcrumbs.gem-c-breadcrumbs--inverse"
   end
 
-  it "renders curated related items breadcrumbs if the content_item has curated related items" do
-    content_item = example_document_for("licence", "licence_without_continuation_link")
-    content_item = remove_mainstream_browse(content_item)
-    render_component(content_item: content_item)
-    assert_no_selector(".gem-c-step-nav-header")
-    assert_select "a", text: "Home"
-    assert_select "a", text: "Business and self-employed"
-    assert_select "a", text: "Licences and licence applications"
-  end
-
-  it "renders taxon breadcrumbs if there are some and no mainstream or curated_content" do
+  it "renders taxon breadcrumbs if there are some and no mainstream" do
     content_item = example_document_for("guide", "guide")
     content_item = remove_mainstream_browse(content_item)
-    content_item = remove_curated_related_item(content_item)
     content_item = set_live_taxons(content_item)
     render_component(content_item: content_item)
     assert_no_selector(".gem-c-step-nav-header")
@@ -90,10 +72,9 @@ describe "ContextualBreadcrumbs", type: :view do
     assert_select "a", text: "Education, training and skills"
   end
 
-  it "renders inverse taxon breadcrumbs if there are some and no mainstream or curated_content" do
+  it "renders inverse taxon breadcrumbs if there are some and no mainstream" do
     content_item = example_document_for("guide", "guide")
     content_item = remove_mainstream_browse(content_item)
-    content_item = remove_curated_related_item(content_item)
     content_item = set_live_taxons(content_item)
     render_component(content_item: content_item, inverse: true)
     assert_select ".gem-c-breadcrumbs.gem-c-breadcrumbs--inverse"
@@ -102,7 +83,6 @@ describe "ContextualBreadcrumbs", type: :view do
   it "renders no taxon breadcrumbs if they are not live" do
     content_item = example_document_for("guide", "guide")
     content_item = remove_mainstream_browse(content_item)
-    content_item = remove_curated_related_item(content_item)
     content_item["links"]["taxons"].each { |taxon| taxon["phase"] = "draft" }
     assert_no_selector(".gem-c-step-nav-header")
     assert_no_selector(".gem-c-breadcrumbs")
