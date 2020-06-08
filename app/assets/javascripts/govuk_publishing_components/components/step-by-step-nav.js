@@ -60,7 +60,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
       }
 
       function addShowHideAllButton () {
-        $element.prepend('<div class="gem-c-step-nav__controls"><button aria-expanded="false" class="gem-c-step-nav__button gem-c-step-nav__button--controls js-step-controls-button">' + actions.showAllText + '</button></div>')
+        $element.prepend('<div class="gem-c-step-nav__controls govuk-!-display-none-print"><button aria-expanded="false" class="gem-c-step-nav__button gem-c-step-nav__button--controls js-step-controls-button">' + actions.showAllText + '</button></div>')
       }
 
       function addShowHideToggle () {
@@ -73,7 +73,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
           if (!$(this).find('.js-toggle-link').length) {
             $(this).find('.js-step-title-button').append(
-              '<span class="gem-c-step-nav__toggle-link js-toggle-link" aria-hidden="true" hidden></span>'
+              '<span class="gem-c-step-nav__toggle-link govuk-!-display-none-print js-toggle-link" aria-hidden="true" hidden></span>'
             )
           }
         })
