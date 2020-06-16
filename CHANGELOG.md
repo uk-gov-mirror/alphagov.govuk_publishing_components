@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## Unreleased
+
+* Remove `display: none` rules from component print stylesheets, and use the `govuk-!-display-none-print` class instead. ([PR #1561](https://github.com/alphagov/govuk_publishing_components/pull/1561))
+
 ## 21.55.4
 
 * Rework suggested imports functionality ([PR #1571](https://github.com/alphagov/govuk_publishing_components/pull/1571))
