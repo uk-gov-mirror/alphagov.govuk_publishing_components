@@ -1,0 +1,18 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "plugins": [
+      "jquery",
+      "only-warn"
+    ],
+    "extends": [
+        "plugin:jquery/deprecated"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "rules": {
+    }
+}

@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "lint:js": "standard 'app/assets/javascripts/**/*.js' 'spec/javascripts/**/*.js'",
+    "lint:jquery": "eslint 'app/assets/javascripts/govuk_publishing_components/**/*.js'",
     "lint:scss": "stylelint app/assets/stylesheets/",
-    "lint": "yarn run lint:js && yarn run lint:scss"
+    "lint": "yarn run lint:js && yarn run lint:jquery && yarn run lint:scss"
   },
   "standard": {
     "ignore": [
@@ -24,6 +25,14 @@
     "jquery": "1.12.4"
   },
   "devDependencies": {
+    "eslint": "^7.3.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jquery": "^1.5.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-only-warn": "^1.0.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "standard": "^14.3.4",
     "stylelint": "^13.6.1",
     "stylelint-config-gds": "0.1.0-pre.2"
