@@ -14,3 +14,4 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+gem "govuk_test", git: "https://github.com/alphagov/govuk_test", branch: "chrome-sandbox"
