@@ -9,23 +9,19 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
   Modules.Feedback = function () {
     this.start = function ($element) {
       this.element = $element[0]
-      this.somethingIsWrongForm = this.element.querySelector('#something-is-wrong')
-      this.surveyForm = this.element.querySelector('#page-is-not-useful')
-      this.$prompt = $element.find('.js-prompt')
-      this.$fields = $element.find('.gem-c-feedback__form-field')
-      this.$forms = $element.find('.js-feedback-form')
-      this.$toggleForms = $element.find('.js-toggle-form')
-      this.$closeForms = $element.find('.js-close-form')
+      this.somethingIsWrongForm = document.getElementById('something-is-wrong')
+      this.surveyForm = document.getElementById('page-is-not-useful')
+      this.prompt = this.element.querySelector('.js-prompt')
+      this.forms = this.element.getElementsByClassName('js-feedback-form')
+      this.toggleForms = this.element.querySelectorAll('.js-toggle-form')
+      this.closeForms = this.element.querySelectorAll('.js-close-form')
       this.activeForm = false
-      this.$activeForm = false
-      this.$pageIsUsefulButton = $element.find('.js-page-is-useful')
-      this.$pageIsNotUsefulButton = $element.find('.js-page-is-not-useful')
-      this.$somethingIsWrongButton = $element.find('.js-something-is-wrong')
-      this.$promptQuestions = $element.find('.js-prompt-questions')
-      this.$promptSuccessMessage = $element.find('.js-prompt-success')
-      this.$somethingIsWrongForm = $(this.somethingIsWrongForm)
-      this.$surveyForm = $(this.surveyForm)
-      this.$surveyWrapper = $element.find('#survey-wrapper')
+      this.pageIsUsefulButton = this.element.querySelector('.js-page-is-useful')
+      this.pageIsNotUsefulButton = this.element.querySelector('.js-page-is-not-useful')
+      this.somethingIsWrongButton = this.element.querySelector('.js-something-is-wrong')
+      this.promptQuestions = this.element.querySelector('.js-prompt-questions')
+      this.promptSuccessMessage = this.element.querySelector('.js-prompt-success')
+      this.surveyWrapper = document.getElementById('survey-wrapper')
 
       var that = this
       var jshiddenClass = 'js-hidden'
@@ -33,31 +29,34 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
       setInitialAriaAttributes()
       setHiddenValues()
 
-      this.$toggleForms.on('click', function (e) {
-        e.preventDefault()
-        toggleForm($(e.target).attr('aria-controls'))
-        trackEvent(getTrackEventParams($(this)))
-        updateAriaAttributes($(this))
-      })
+      for (var i = 0; i < this.toggleForms.length; i++) {
+        this.toggleForms[i].addEventListener('click', function (e) {
+          e.preventDefault()
+          toggleForm(e.target.getAttribute('aria-controls'))
+          trackEvent(getTrackEventParams(this))
+          updateAriaAttributes(this)
+        })
+      }
+      for (var i = 0; i < this.closeForms.length; i++) {
+        this.closeForms[i].addEventListener('click', function (e) {
+          e.preventDefault()
+          toggleForm(e.target.getAttribute('aria-controls'))
+          trackEvent(getTrackEventParams(this))
+          setInitialAriaAttributes()
+          revealInitialPrompt()
+          var refocusClass = '.js-' + e.target.getAttribute('aria-controls')
+          $element.find(refocusClass).focus()
+        })
+      }
 
-      this.$closeForms.on('click', function (e) {
+      this.pageIsUsefulButton.addEventListener('click', function (e) {
         e.preventDefault()
-        toggleForm($(e.target).attr('aria-controls'))
-        trackEvent(getTrackEventParams($(this)))
-        setInitialAriaAttributes()
-        revealInitialPrompt()
-        var refocusClass = '.js-' + $(e.target).attr('aria-controls')
-        $element.find(refocusClass).focus()
-      })
-
-      this.$pageIsUsefulButton.on('click', function (e) {
-        e.preventDefault()
-        trackEvent(getTrackEventParams(that.$pageIsUsefulButton))
+        trackEvent(getTrackEventParams(that.pageIsUsefulButton))
         showFormSuccess()
         revealInitialPrompt()
       })
 
-      this.$pageIsNotUsefulButton.on('click', function (e) {
+      this.pageIsNotUsefulButton.addEventListener('click', function (e) {
         var gaClientId
         var dummyGaClientId = '111111111.1111111111'
         if (window.GOVUK.cookie('_ga') === null || window.GOVUK.cookie('_ga') === '') {
@@ -67,46 +66,95 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
         }
         setHiddenValuesNotUsefulForm(gaClientId)
       })
-
-      $element.find('form').on('submit', function (e) {
-        e.preventDefault()
-        var $form = $(this)
-        $.ajax({
-          type: 'POST',
-          url: $form.attr('action'),
-          dataType: 'json',
-          data: $form.serialize(),
-          beforeSend: disableSubmitFormButton($form),
-          timeout: 6000
-        }).done(function (xhr) {
-          trackEvent(getTrackEventParams($form))
-          showFormSuccess(xhr.message)
-          revealInitialPrompt()
-          setInitialAriaAttributes()
-          that.$activeForm.toggleClass(jshiddenClass)
-        }).fail(function (xhr) {
-          showError(xhr)
-          enableSubmitFormButton($form)
+      for (var i = 0; i < that.forms.length; i++) {
+        var thisForm = that.forms[i]
+        thisForm.addEventListener('submit', function(e) {
+          e.preventDefault()
+          disableSubmitFormButton(this)
+          function urlencodeFormData(fd){
+            var s = '';
+            function encode(s){ return encodeURIComponent(s).replace(/%20/g,'+'); }
+            for(var pair of fd.entries()){
+                if(typeof pair[1]=='string'){
+                    s += (s?'&':'') + encode(pair[0])+'='+encode(pair[1]);
+                }
+            }
+            return s;
+          }
+          var xhr = new XMLHttpRequest()
+          var formData = urlencodeFormData(new FormData(thisForm))
+          xhr.open('POST',this.getAttribute('action'))
+          xhr.timeout = 6000
+          xhr.setRequestHeader('Accept', 'application/json, text/javascript, */*')
+          xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest')
+          xhr.send(formData)
+          xhr.onload = function () {
+            console.log(xhr.response)
+            console.log(xhr.responseText)
+            console.log(xhr.responseType)
+            if (xhr.status === 200) {
+              trackEvent(getTrackEventParams(thisForm))
+              showFormSuccess(xhr.response)
+              console.log(xhr.response)
+              revealInitialPrompt()
+              setInitialAriaAttributes()
+              that.activeForm.classList.contains(jshiddenClass) ? that.activeForm.classList.remove(jshiddenClass) : that.activeForm.classList.add(jshiddenClass)
+            } else {
+              showError(xhr.response)
+              enableSubmitFormButton(thisForm)
+            }
+          }
+          xhr.addEventListener("error", function () {
+            showError(xhr.response)
+            enableSubmitFormButton(thisForm)
+          })
+          // $.ajax({
+          //   type: 'POST',
+          //   url: this.getAttribute('action'),
+          //   dataType: 'json',
+          //   data: formData,
+          //   beforeSend: disableSubmitFormButton(this),
+          //   timeout: 6000
+          // }).done(function (xhr) {
+          //   trackEvent(getTrackEventParams(this))
+          //   showFormSuccess(xhr.message)
+          //   revealInitialPrompt()
+          //   setInitialAriaAttributes()
+          //   that.activeForm.classList.contains(jshiddenClass) ? that.activeForm.classList.remove(jshiddenClass) : that.activeForm.classList.add(jshiddenClass)
+          // }).fail(function (xhr) {
+          //   showError(xhr)
+          //   enableSubmitFormButton(this)
+          // })
         })
-      })
-
-      function disableSubmitFormButton ($form) {
-        $form.find('input[type="submit"]').prop('disabled', true)
       }
 
-      function enableSubmitFormButton ($form) {
-        $form.find('input[type="submit"]').removeAttr('disabled')
+      function disableSubmitFormButton (form) {
+        form.querySelector('[type="submit"]').setAttribute('disabled', true)
+      }
+
+      function enableSubmitFormButton (form) {
+        form.querySelector('[type="submit"]').removeAttribute('disabled')
       }
 
       function setInitialAriaAttributes () {
-        that.$forms.attr('aria-hidden', true)
-        that.$pageIsNotUsefulButton.attr('aria-expanded', false)
-        that.$somethingIsWrongButton.attr('aria-expanded', false)
+        for (var i = 0; i < that.forms.length; i++) {
+          that.forms[i].setAttribute('aria-hidden', true)
+        }
+        that.pageIsNotUsefulButton.setAttribute('aria-expanded', false)
+        that.somethingIsWrongButton.setAttribute('aria-expanded', false)
       }
 
       function setHiddenValues () {
-        that.$somethingIsWrongForm.append('<input type="hidden" name="javascript_enabled" value="true"/>')
-        that.$somethingIsWrongForm.append($('<input type="hidden" name="referrer">').val(document.referrer || 'unknown'))
+        var jsEnabledInput = document.createElement('input')
+        var referrerInput = document.createElement('input')
+        jsEnabledInput.setAttribute('type', 'hidden')
+        jsEnabledInput.setAttribute('name', 'javascript_enabled')
+        jsEnabledInput.value = true
+        referrerInput.setAttribute('type', 'hidden')
+        referrerInput.setAttribute('name', 'referrer')
+        referrerInput.value = document.referrer || 'unknown'
+        that.somethingIsWrongForm.appendChild(jsEnabledInput)
+        that.somethingIsWrongForm.appendChild(referrerInput)
         that.somethingIsWrongForm.invalidInfoError = [
           '<h2>',
           '  Sorry, we’re unable to send your message as you haven’t given us any information.',
@@ -118,6 +166,18 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
       function setHiddenValuesNotUsefulForm (gaClientId) {
         var currentPathName = window.location.pathname.replace(/[^\s=?&]+(?:@|%40)[^\s=?&]+/, '[email]')
         var finalPathName = encodeURI(currentPathName)
+        var emailSurveySignupInput = document.createElement('input')
+        emailSurveySignupInput.setAttribute('type','hidden')
+        emailSurveySignupInput.setAttribute('name','email_survey_signup[ga_client_id]')
+        emailSurveySignupInput.value = gaClientId || '0'
+        var smartSurveyLink = document.createElement('a')
+        smartSurveyLink.href = "https://www.smartsurvey.co.uk/s/gov-uk-banner/?c=" + finalPathName + "&amp;gcl=" + gaClientId
+        smartSurveyLink.class = "gem-c-feedback__email-link govuk-link"
+        smartSurveyLink.id = "take-survey"
+        smartSurveyLink.setAttribute('target', '_blank')
+        smartSurveyLink.setAttribute('rel', 'noopener noreferrer')
+        smartSurveyLink.innerText = "Don’t have an email address?"
+
         that.surveyForm.invalidInfoError = [
           '<h2>',
           '  Sorry, we’re unable to send your message as you haven’t given us a valid email address. ',
@@ -125,38 +185,37 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
           '<p>Enter an email address in the correct format, like name@example.com</p>'
         ].join('')
         if (document.querySelectorAll('[name="email_survey_signup[ga_client_id]"]').length === 0) {
-          that.$surveyForm.append($('<input name="email_survey_signup[ga_client_id]" type="hidden">').val(gaClientId || '0'))
+          that.surveyForm.appendChild(emailSurveySignupInput)
         }
 
         if (document.querySelectorAll('.gem-c-feedback__email-link#take-survey').length === 0) {
-          that.$surveyWrapper.append('<a href="https://www.smartsurvey.co.uk/s/gov-uk-banner/?c=' + finalPathName + '&amp;gcl=' + gaClientId + '" class="gem-c-feedback__email-link govuk-link" id="take-survey" target="_blank" rel="noopener noreferrer">Don’t have an email address?</a>')
+          that.surveyWrapper.appendChild(smartSurveyLink)
         }
       }
 
       function updateAriaAttributes (linkClicked) {
-        linkClicked.attr('aria-expanded', true)
-        $('#' + linkClicked.attr('aria-controls')).attr('aria-hidden', false)
+        linkClicked.setAttribute('aria-expanded', true)
+        document.getElementById(linkClicked.getAttribute('aria-controls')).setAttribute('aria-hidden', false)
       }
 
       function toggleForm (formId) {
-        that.activeForm = that.element.querySelector('#' + formId)
-        that.$activeForm = $(that.activeForm)
-        that.$activeForm.toggleClass(jshiddenClass)
-        that.$prompt.toggleClass(jshiddenClass)
+        that.activeForm = document.getElementById(formId)
+        that.activeForm.classList.contains(jshiddenClass) ? that.activeForm.classList.remove(jshiddenClass) : that.activeForm.classList.add(jshiddenClass)
+        that.prompt.classList.contains(jshiddenClass) ? that.prompt.classList.remove(jshiddenClass) : that.prompt.classList.add(jshiddenClass)
 
-        var formIsVisible = !that.$activeForm.hasClass(jshiddenClass)
+        var formIsVisible = !that.activeForm.classList.contains(jshiddenClass)
 
         if (formIsVisible) {
-          that.$activeForm.find('.gem-c-input').first().focus()
+          that.activeForm.querySelector('.gem-c-input').focus()
         } else {
-          that.$activeForm = false
+          that.activeForm = false
         }
       }
 
-      function getTrackEventParams ($node) {
+      function getTrackEventParams (element) {
         return {
-          category: $node.data('track-category'),
-          action: $node.data('track-action')
+          category: element.getAttribute('data-track-category'),
+          action: element.getAttribute('data-track-action')
         }
       }
 
@@ -190,18 +249,23 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
           // for all other, show generic error
           error = genericError
         }
-        var $errors = that.$activeForm.find('.js-errors')
-        $errors.html(error).removeClass(jshiddenClass).focus()
+        var errors = that.activeForm.getElementsByClassName('js-errors')
+        for (var i = 0; i < errors.length; i++) {
+          errors[i].innerHTML = error
+          errors[i].classList.remove(jshiddenClass)
+          errors[i].focus()
+        }
       }
 
       function showFormSuccess () {
-        that.$promptQuestions.addClass(jshiddenClass)
-        that.$promptSuccessMessage.removeClass(jshiddenClass).focus()
+        that.promptQuestions.classList.add(jshiddenClass)
+        that.promptSuccessMessage.classList.remove(jshiddenClass)
+        that.promptSuccessMessage.focus()
       }
 
       function revealInitialPrompt () {
-        that.$prompt.removeClass(jshiddenClass)
-        that.$prompt.focus()
+        that.prompt.classList.remove(jshiddenClass)
+        that.prompt.focus()
       }
     }
   }
