@@ -1,0 +1,44 @@
+name: "Visual regression test"
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    types:
+      - "ready_for_review"
+
+jobs:
+  visual-regression-test-components:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-ruby@v1"
+        with:
+          ruby-version: "2.7"
+      - uses: "actions/setup-node@v2.1.2"
+        with:
+          node-version: "14"
+      - name: "Cache node modules"
+        uses: "actions/cache@v2.1.3"
+        with:
+          path: "~/.npm"
+          key: "${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}"
+          restore-keys: "${{ runner.os }}-node-"
+      - name: "Cache Ruby gems"
+        uses: "actions/cache@v2.1.3"
+        with:
+          path: "vendor/bundle"
+          key: "${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}"
+          restore-keys: "${{ runner.os }}-gems-"
+      - name: "Bundle and yarn install"
+        run: |
+          bundle config path tmp/bundle
+          bundle install --jobs 4 --retry 3
+          yarn install --frozen-lockfile
+      - uses: "percy/exec-action@v0.3.1"
+        with:
+          command: "bundle exec rspec ./spec/visual_regression_tests/all_components.rb"
+        env:
+          PERCY_TOKEN: "${{ secrets.PERCY_TOKEN }}"
