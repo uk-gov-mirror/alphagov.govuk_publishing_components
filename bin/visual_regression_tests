@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+
+ENV["RAILS_ENV"] ||= "test"
+
+require File.expand_path("../spec/dummy/config/environment", __dir__)
+
+require "capybara/rails"
+require "govuk_test"
+require "active_support/testing/time_helpers"
+require "uri"
+require "percy"
+
+GovukTest.configure
+Capybara.configure do |config|
+  config.default_driver = :headless_chrome
+  config.default_max_wait_time = 10
+end
+
+class VisualRegressionTestRunner
+  include Capybara::DSL
+  include ActiveSupport::Testing::TimeHelpers
+
+  COMPONENTS_TO_SKIP = [
+    # not visible
+    "/component-guide/meta_tags",
+    "/component-guide/machine_readable_metadata",
+    "/component-guide/admin_analytics",
+    "/component-guide/google_tag_manager_script",
+    "/component-guide/layout_for_admin",
+    # times out
+    "/component-guide/govspeak",
+  ].freeze
+
+  def self.call
+    new.call
+  end
+
+  def call
+    travel_to(Time.zone.local(2020, 12, 1, 6, 0, 0)) do
+      visit("/component-guide")
+
+      find("#list-all-components-in-the-gem")
+        .all("a")
+        .map { |link| URI(link[:href]).path }
+        .reject { |path| COMPONENTS_TO_SKIP.include?(path) }
+        .each { |path| test(path) }
+    end
+  end
+
+  def test(path)
+    visit("#{path}/preview")
+    name = title.gsub(/(: Default|) preview - Component Guide/, "")
+
+    if page.find(:css, "#wrapper")
+      puts "Screenshotting #{name}"
+      page.save_screenshot("#{name}.png")
+    else
+      puts "Failed to screenshot #{name}"
+    end
+  end
+end
+
+VisualRegressionTestRunner.call

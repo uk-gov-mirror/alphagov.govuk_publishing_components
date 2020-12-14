@@ -33,4 +33,8 @@ task lint: %i[rubocop environment] do
   sh "yarn run lint"
 end
 
+task :visual_regression_tests do
+  sh "bin/visual_regression_tests"
+end
+
 task default: [:lint, :spec, "app:jasmine:ci"]
