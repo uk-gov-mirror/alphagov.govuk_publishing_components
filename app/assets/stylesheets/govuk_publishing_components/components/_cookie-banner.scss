@@ -8,18 +8,16 @@ $govuk-cookie-banner-background: govuk-colour("light-grey", "grey-4");
 }
 
 .gem-c-cookie-banner {
-  @include govuk-font($size: 16);
-  padding: govuk-spacing(2) 0;
   background-color: $govuk-cookie-banner-background;
 }
 
-// Only show accept button if users have js and can accept
-.gem-c-cookie-banner__button-accept {
+// Only show buttons if users have js and can accept
+.gem-c-button.js-visible {
   display: none;
 }
 
-.js-enabled .gem-c-cookie-banner__button-accept {
-  display: inline-block;
+.js-enabled .gem-c-button.js-visible {
+  display: block;
 }
 
 .gem-c-cookie-banner__confirmation {
