@@ -1,10 +1,7 @@
 <%
   id ||= 'global-cookie-message'
   title ||= "Cookies on GOV.UK"
-
-  text ||= raw("<p>We use some essential cookies to make this website work.</p>
-                <p>We’d like to set additional cookies so we and our partners can remember your settings, understand how you use GOV.UK and make improvements.</p>
-                ")
+  text ||= raw("<p>We use cookies to collect information about how you use GOV.UK. Some of these are essential to make the site work.</p><p>We'd like to set additional cookies to understand how you use GOV.UK, remember your settings and improve government services.</p><p>We may also use cookies set by other sites to help us deliver content from their services.</p>")
   cookie_preferences_href ||= "/help/cookies"
   confirmation_message ||= raw("You can <a class='govuk-link' href='#{cookie_preferences_href}' data-module='track-click' data-track-category='cookieBanner' data-track-action='Cookie banner settings clicked from confirmation'>change your cookie settings</a> at any time.")
   services_cookies ||= nil
@@ -74,7 +71,9 @@
 
   <div class="gem-c-cookie-banner__confirmation govuk-width-container" tabindex="-1" hidden>
     <p class="gem-c-cookie-banner__confirmation-message" role="alert"><%= confirmation_message %></p>
-    <button class="gem-c-cookie-banner__hide-button" data-hide-cookie-banner="true" data-module="track-click" data-track-category="cookieBanner" data-track-action="Hide cookie banner">Hide</button>
+    <div class="govuk-button-group">
+      <button class="gem-c-cookie-banner__hide-button govuk-button" data-hide-cookie-banner="true" data-module="track-click" data-track-category="cookieBanner" data-track-action="Hide cookie banner">Hide this message</button>
+    </div>
   </div>
 
 </div>
