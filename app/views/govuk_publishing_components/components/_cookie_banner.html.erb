@@ -46,17 +46,19 @@
             <%= render "govuk_publishing_components/components/button", {
                 name: "cookies",
                 text: "Accept additional cookies",
+                classes: "js-visible",
                 data_attributes: {
                   module: "track-click",
                   "accept-cookies": "true",
                   "track-category": "cookieBanner",
                   "track-action": "Cookie banner accepted",
-                  "cookie-types": "all"
+                  "cookie-types": "all",
                 }
             } %>
             <%= render "govuk_publishing_components/components/button", {
                 name: "cookies",
                 text: "Reject additional cookies",
+                classes: "js-visible",
                 data_attributes: {
                   module: "track-click",
                   "reject-cookies": "true",
@@ -64,7 +66,6 @@
                   "track-action": "Cookie banner rejected",
                 }
             } %>
-
             <a class="govuk-link" href="<%= cookie_preferences_href %>">View cookies</a>
           </div>
         <% end %>
