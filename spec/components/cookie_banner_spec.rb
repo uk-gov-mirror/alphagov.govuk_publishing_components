@@ -9,8 +9,7 @@ describe "Cookie banner", type: :view do
     render_component({})
     assert_select '.gem-c-cookie-banner[id="global-cookie-message"][data-module="cookie-banner"]'
     assert_select ".gem-c-cookie-banner__heading", text: "Cookies on GOV.UK"
-    assert_select ".gem-c-cookie-banner__content", text: "We use some essential cookies to make this website work.
-                We’d like to set additional cookies so we and our partners can remember your settings, understand how you use GOV.UK and make improvements."
+    assert_select ".gem-c-cookie-banner__content", text: "We use cookies to collect information about how you use GOV.UK. Some of these are essential to make the site work.We'd like to set additional cookies to understand how you use GOV.UK, remember your settings and improve government services.We may also use cookies set by other sites to help us deliver content from their services."
     assert_select 'button[data-hide-cookie-banner="true"]'
   end
 
@@ -45,7 +44,7 @@ describe "Cookie banner", type: :view do
   it "renders a hide link within the confirmation banner" do
     render_component({})
 
-    assert_select ".gem-c-cookie-banner__confirmation .gem-c-cookie-banner__hide-button", text: "Hide"
+    assert_select ".gem-c-cookie-banner__confirmation .gem-c-cookie-banner__hide-button", text: "Hide this message"
     assert_select '.gem-c-cookie-banner__hide-button[data-module=track-click][data-track-category=cookieBanner][data-track-action="Hide cookie banner"]'
   end
 

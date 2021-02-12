@@ -50,32 +50,6 @@ $govuk-cookie-banner-background: govuk-colour("light-grey", "grey-4");
   }
 }
 
-.gem-c-cookie-banner__hide-button {
-  @include govuk-font($size: 19);
-  outline: 0;
-  border: 0;
-  background: none;
-  text-decoration: underline;
-  color: $govuk-link-colour;
-  padding: govuk-spacing(0);
-  margin-top: govuk-spacing(2);
-
-  &:hover {
-    color: $govuk-link-hover-colour;
-    cursor: pointer;
-  }
-
-  &:focus {
-    @include govuk-focused-text;
-  }
-
-  @include govuk-media-query($from: desktop) {
-    margin-top: govuk-spacing(0);
-    position: absolute;
-    right: govuk-spacing(1);
-  }
-}
-
 // Override the styles from govuk_template
 // stylelint-disable selector-max-id
 .gem-c-cookie-banner#global-cookie-message {
@@ -97,11 +71,5 @@ $govuk-cookie-banner-background: govuk-colour("light-grey", "grey-4");
   p {
     @include govuk-font($size: 19);
     margin: 0 0 govuk-spacing(2) 0;
-  }
-
-  .gem-c-cookie-banner__confirmation-message {
-    @include govuk-media-query($from: desktop) {
-      margin-bottom: 0;
-    }
   }
 }
