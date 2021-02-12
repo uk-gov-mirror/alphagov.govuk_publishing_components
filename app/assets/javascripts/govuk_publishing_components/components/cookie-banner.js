@@ -62,6 +62,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
   CookieBanner.prototype.hideCookieMessage = function (event) {
     if (this.$module) {
+      this.$module.hidden = true
       this.$module.style.display = 'none'
       window.GOVUK.cookie('cookies_preferences_set', 'true', { days: 365 })
     }
@@ -97,8 +98,9 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
   CookieBanner.prototype.showConfirmationMessage = function () {
     this.$cookieBannerMainContent = document.querySelector('.gem-c-cookie-banner__wrapper')
 
-    this.$cookieBannerMainContent.style.display = 'none'
+    this.$cookieBannerMainContent.hidden = true
     this.$module.cookieBannerConfirmationMessage.style.display = 'block'
+    this.$module.cookieBannerConfirmationMessage.hidden = false
   }
 
   CookieBanner.prototype.isInCookiesPage = function () {
