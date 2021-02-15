@@ -25,14 +25,14 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
       }
     }
 
-    this.$acceptCookiesLink = this.$module.querySelector('button[data-accept-cookies]')
-    if (this.$acceptCookiesLink) {
-      this.$acceptCookiesLink.addEventListener('click', this.$module.setCookieConsent)
+    this.$acceptCookiesButton = this.$module.querySelector('button[data-accept-cookies]')
+    if (this.$acceptCookiesButton) {
+      this.$acceptCookiesButton.addEventListener('click', this.$module.setCookieConsent)
     }
 
-    this.$rejectCookiesLink = this.$module.querySelector('button[data-reject-cookies]')
-    if (this.$rejectCookiesLink) {
-      this.$rejectCookiesLink.addEventListener('click', this.$module.rejectCookieConsent)
+    this.$rejectCookiesButton = this.$module.querySelector('button[data-reject-cookies]')
+    if (this.$rejectCookiesButton) {
+      this.$rejectCookiesButton.addEventListener('click', this.$module.rejectCookieConsent)
     }
 
     this.showCookieMessage()
@@ -73,7 +73,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
   }
 
   CookieBanner.prototype.setCookieConsent = function () {
-    if (this.$acceptCookiesLink.getAttribute('data-cookie-types') === 'all') {
+    if (this.$acceptCookiesButton.getAttribute('data-cookie-types') === 'all') {
       this.$module.cookieBannerConfirmationMessageText.insertAdjacentHTML('afterbegin', 'You have accepted additional cookies. ')
     }
     window.GOVUK.approveAllCookieTypes()
