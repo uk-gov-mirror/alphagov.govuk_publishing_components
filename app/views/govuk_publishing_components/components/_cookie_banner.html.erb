@@ -9,7 +9,7 @@
     end
     text = newtext
   else
-    text = "<p class='govuk-body'>#{text}</p>"
+    text = "<p class='govuk-body govuk-body-l'>#{text}</p>"
   end
   text = raw(text)
 
@@ -20,12 +20,12 @@
   css_classes << "gem-c-cookie-banner--services" if services_cookies
 %>
 <div id="<%= id %>" class="<%= css_classes.join(' ') %>" data-module="cookie-banner" role="region" aria-label="cookie banner" data-nosnippet>
-  <div class="govuk-cookie-banner" role="region" aria-label="<%= title %>">
+  <div class="govuk-cookie-banner gem-c-cookie-banner__wrapper" role="region" aria-label="<%= title %>">
     <div class="gem-c-cookie-banner__message govuk-cookie-banner__message govuk-width-container govuk-body">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <h2 class="govuk-cookie-banner__heading govuk-heading-m"><%= title %></h2>
-          <div class="govuk-cookie-banner__content">
+          <div class="govuk-cookie-banner__content" >
             <%= text %>
           </div>
         </div>
@@ -51,7 +51,6 @@
             <%= render "govuk_publishing_components/components/button", {
                 name: "cookies",
                 text: "Accept additional cookies",
-                classes: "js-visible",
                 data_attributes: {
                   module: "track-click",
                   "accept-cookies": "true",
@@ -63,7 +62,6 @@
             <%= render "govuk_publishing_components/components/button", {
                 name: "cookies",
                 text: "Reject additional cookies",
-                classes: "js-visible",
                 data_attributes: {
                   module: "track-click",
                   "reject-cookies": "true",
