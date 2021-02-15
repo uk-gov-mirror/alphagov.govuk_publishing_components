@@ -27,11 +27,13 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
     this.$acceptCookiesButton = this.$module.querySelector('button[data-accept-cookies]')
     if (this.$acceptCookiesButton) {
+      this.$acceptCookiesButton.style.display = 'block'
       this.$acceptCookiesButton.addEventListener('click', this.$module.setCookieConsent)
     }
 
     this.$rejectCookiesButton = this.$module.querySelector('button[data-reject-cookies]')
     if (this.$rejectCookiesButton) {
+      this.$rejectCookiesButton.style.display = 'block'
       this.$rejectCookiesButton.addEventListener('click', this.$module.rejectCookieConsent)
     }
 
