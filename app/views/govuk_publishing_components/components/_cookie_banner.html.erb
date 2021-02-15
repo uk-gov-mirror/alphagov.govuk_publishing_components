@@ -1,7 +1,18 @@
 <%
   id ||= 'global-cookie-message'
   title ||= "Cookies on GOV.UK"
-  text ||= raw("<p>We use some essential cookies to make this website work.</p> <p>We'd like to set additional cookies to understand how you use GOV.UK, remember your settings and improve government services.</p> <p>We also use cookies set by other sites to help us deliver content from their services.</p>")
+  text ||= ["We use some essential cookies to make this website work", "We'd like to set additional cookies to understand how you use GOV.UK, remember your settings and improve government services.", "We also use cookies set by other sites to help us deliver content from their services."]
+  if text.kind_of?(Array)
+    newtext = ""
+    text.each do |t|
+      newtext += "<p class='govuk-body'>#{t}</p>"
+    end
+    text = newtext
+  else
+    text = "<p class='govuk-body'>#{text}</p>"
+  end
+  text = raw(text)
+
   cookie_preferences_href ||= "/help/cookies"
   confirmation_message ||= raw("You can <a class='govuk-link' href='#{cookie_preferences_href}' data-module='track-click' data-track-category='cookieBanner' data-track-action='Cookie banner settings clicked from confirmation'>change your cookie settings</a> at any time.")
   services_cookies ||= nil
