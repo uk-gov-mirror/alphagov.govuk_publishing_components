@@ -67,9 +67,4 @@ $govuk-cookie-banner-background: govuk-colour("light-grey", "grey-4");
   .gem-c-cookie-banner__message {
     margin-bottom: 0;
   }
-
-  p {
-    @include govuk-font($size: 19);
-    margin: 0 0 govuk-spacing(2) 0;
-  }
 }
