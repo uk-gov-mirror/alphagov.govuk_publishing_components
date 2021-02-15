@@ -1,6 +1,8 @@
 name: Cookie banner
 description: Help users manage their personal data by telling them when you store cookies on their device.
 body: |
+  By default the cookie banner is shown to all users with just a link to the settings page. If JS is on this is enhanced to show accept/reject buttons if preferences aren't set, or to hide the banner if they are.
+
   Setting `data-hide-cookie-banner="true"` on any link inside the banner will overwrite the default action and when clicked will dismiss the cookie banner for a period of 365 days (approx. 1 year).
 
   If the examples below are not showing the banner, make sure the `cookies_preferences_set` cookie is not present or is set to false.
