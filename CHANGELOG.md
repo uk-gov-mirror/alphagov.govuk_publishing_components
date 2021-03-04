@@ -7,6 +7,9 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## Unreleased
+* Tidy up untranslated content and formatting on accordion docs ([PR #1958](https://github.com/alphagov/govuk_publishing_components/pull/1958)) PATCH
+
 ## 24.9.0
 
 * Image card link size option ([PR #2007](https://github.com/alphagov/govuk_publishing_components/pull/2007))
