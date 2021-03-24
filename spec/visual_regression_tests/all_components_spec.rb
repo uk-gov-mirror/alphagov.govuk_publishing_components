@@ -34,7 +34,7 @@ describe "visual regression test runner Percy", visual_regression: true do
 
       visit("#{link}/preview")
       name = title.gsub(/(: Default|) preview - Component Guide/, "")
-      page.find(:css, "#wrapper", wait: 10)
+      page.find(:css, "body > #wrapper", wait: 10)
       Percy.snapshot(page, name: name)
     end
   end
