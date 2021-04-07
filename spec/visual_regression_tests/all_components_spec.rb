@@ -5,7 +5,7 @@ require "uri"
 describe "visual regression test runner Percy", visual_regression: true do
   it "takes a screenshot of each component" do
     # Freeze time for consistency
-    travel_to(Time.zone.local(2020, 12, 1, 6, 0, 0))
+    travel_to Time.zone.local(2020, 12, 1, 6, 0, 0)
 
     skip_as_govspeak_times_out = %w[
       /component-guide/govspeak/preview
@@ -44,5 +44,7 @@ describe "visual regression test runner Percy", visual_regression: true do
 
       Percy.snapshot(page, name: name)
     end
+
+    travel_back
   end
 end
