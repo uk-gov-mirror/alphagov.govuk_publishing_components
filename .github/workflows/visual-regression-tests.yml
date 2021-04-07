@@ -11,15 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # Also runs `bundle install`
       - uses: actions/setup-node@v1
         with:
           node-version: "12"
-      - name: Check for cached Ruby gems
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: bundle-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: bundle
       - name: Get Yarn cache directory path
         id: yarn-cache-directory-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -29,7 +25,6 @@ jobs:
           path: ${{ steps.yarn-cache-directory-path.outputs.dir }}
           key: yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: yarn-
-      - run: bundle install --jobs 4 --retry 3 --deployment
       - run: yarn install --frozen-lockfile
       - uses: percy/exec-action@v0.3.1
         with:
