@@ -126,4 +126,28 @@ describe('A show password component', function () {
       expect(element.find('.govuk-visually-hidden').text()).toBe('Your password is shown')
     })
   })
+
+  describe('with data attributes', function () {
+    beforeEach(function () {
+      element = $(
+        '<div class="gem-c-show-password" data-module="show-password" data-disable-form-submit-check="false" data-show-text="Show" data-hide-text="Hide" data-show-full-text="Show password" data-hide-full-text="Hide password" data-announce-show="Your password is shown" data-announce-hide="Your password is hidden">' +
+          '<div class="govuk-form-group">' +
+            '<label for="input" class="gem-c-label govuk-label">Please enter your password</label>' +
+            '<input name="password" value="this is my password" class="gem-c-input govuk-input" id="input" type="password" autocomplete="off" data-normal-attribute="data-attribute" data-button-moving-attribute="data-button-attribute">' +
+          '</div>' +
+        '</div>'
+      )
+      new GOVUK.Modules.ShowPassword().start(element)
+    })
+
+    afterEach(function () {
+      element.remove()
+    })
+
+    it('applies data attributes to the button correctly', function () {
+      expect(element.find('input')[0].hasAttribute('data-normal-attribute')).toBe(true)
+      expect(element.find('input')[0].hasAttribute('data-button-moving-attribute')).toBe(false)
+      expect(element.find('button').attr('data-moving-attribute')).toBe('data-button-attribute')
+    })
+  })
 })
