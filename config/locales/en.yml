@@ -3,8 +3,10 @@ en:
   common:
     hide: Hide
     show: Show
-    toggle_less: Show fewer
-    toggle_more: "%{show} %{number} more"
+    toggle_less_html: "Show fewer <span class='govuk-visually-hidden'>%{visually_hidden_text}</span>"
+    toggle_less_visually_hidden_text: links or possibly a different translation
+    toggle_more_html: "%{show} %{number} more <span class='govuk-visually-hidden'>%{visually_hidden_text}</span>"
+    toggle_more_visually_hidden_text: links
     translations: Translations
   components:
     accordion:
