@@ -28,6 +28,11 @@
     </h2>
     <%= render partial: "govuk_publishing_components/component_guide/component_doc/preview", locals: { component_doc: @component_doc, example: @component_example } %>
 
+    <% if @component_doc.uses_component_wrapper_helper? %>
+      <h3 class="component-doc-h3">How it looks right to left</h3>
+      <%= render "govuk_publishing_components/component_guide/component_doc/preview", component_doc: @component_doc, example: @component_doc_rtl %>
+    <% end %>
+
     <h2 class="component-doc-h2">How to call this example</h2>
     <%= code_example %>
   </div>
