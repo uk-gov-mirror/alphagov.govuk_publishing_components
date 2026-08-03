@@ -92,6 +92,52 @@ describe "Devolved Nations", type: :view do
       )
       assert_select ".gem-c-devolved-nations > h2", text: "Yn berthnasol i Loegr, Cymru a'r Alban"
     end
+
+    it "renders a devolved nations component, which applies to one nation, with individual publication available, correctly" do
+      render_component(
+        national_applicability: {
+          england: {
+            applicable: true,
+          },
+          northern_ireland: {
+            applicable: false,
+            alternative_url: "/publication-northern-ireland",
+          },
+          scotland: {
+            applicable: false,
+            alternative_url: "/publication-scotland",
+          },
+          wales: {
+            applicable: false,
+            alternative_url: "/publication-wales",
+          },
+        },
+      )
+      assert_select ".gem-c-devolved-nations > h2", text: "Yn berthnasol i Loegr"
+      assert_select ".gem-c-devolved-nations > ul > li:nth-child(1) > [href='/publication-northern-ireland']", text: "Cyhoeddiad ar gyfer Gogledd Iwerddon"
+      assert_select ".gem-c-devolved-nations > ul > li:nth-child(2) > [href='/publication-scotland']", text: "Cyhoeddiad ar gyfer yr Alban"
+      assert_select ".gem-c-devolved-nations > ul > li:nth-child(3) > [href='/publication-wales']", text: "Cyhoeddiad ar gyfer Cymru"
+    end
+
+    it "renders a devolved nations component, which applies to one nation, with single publication available for other nations, correctly" do
+      render_component(
+        national_applicability: {
+          england: {
+            applicable: false,
+            alternative_url: "/publication-en-ni",
+          },
+          northern_ireland: {
+            applicable: false,
+            alternative_url: "/publication-en-ni",
+          },
+          wales: {
+            applicable: true,
+          },
+        },
+      )
+      assert_select ".gem-c-devolved-nations > h2", text: "Yn berthnasol i Gymru"
+      assert_select ".gem-c-devolved-nations > ul > li:nth-child(1) > [href='/publication-en-ni']", text: "Cyhoeddiad ar gyfer Lloegr a Gogledd Iwerddon"
+    end
   end
 
   it "renders a devolved nations component, which applies to one nation, with individual publication available, correctly" do
