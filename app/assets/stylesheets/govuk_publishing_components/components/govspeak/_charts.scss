@@ -156,6 +156,17 @@
             background-color: list.nth($bar-colours, $i + 1);
             color: list.nth($bar-text-colours, $i + 1);
           }
+
+          .mc-bar-#{$i + 1}.mc-no-data {
+              color: govuk-colour("black");
+              border-width: 2px;
+              border-style: solid;
+              border-color: list.nth($bar-colours, $i + 1);
+          }
+        }
+
+        .mc-no-data span {
+          display: inline-block;
         }
 
         // Negative bars
