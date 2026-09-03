@@ -29,11 +29,11 @@
   // For charts, the palette should be used instead of the GOV.UK colour palette - https://design-system.service.gov.uk/styles/colour/
   // https://gss.civilservice.gov.uk/policy-store/data-visualisation-colours-in-charts/#section-5
 
-  $chart-blue-shade-50: #0f385c;
-  $chart-teal-tint-25: #50A1A5;
-  $chart-magenta-shade-25: #98285D;
-  $chart-primary-orange: #f47738;
-  $chart-green-shade-50: #083D29;
+  $chart-blue-shade-50: govuk-colour("blue", $variant: "shade-50");
+  $chart-teal-tint-25: govuk-colour("teal", $variant: "tint-25");
+  $chart-magenta-shade-25: govuk-colour("magenta", $variant: "shade-25");
+  $chart-primary-orange: govuk-colour("orange");
+  $chart-green-shade-50: govuk-colour("green", $variant: "shade-50");
   $chart-accent-purple: #ba4aff;
 
   // CHART COLOUR SCHEME
