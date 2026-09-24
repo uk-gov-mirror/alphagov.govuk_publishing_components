@@ -10,6 +10,14 @@
   }
 }
 
+.gem-c-intervention__dismiss-link-text {
+  text-decoration: underline;
+}
+
+.gem-c-intervention__dismiss-link:focus .gem-c-intervention__dismiss-link-text {
+  text-decoration: none;
+}
+
 .gem-c-intervention--image {
   border-left: 0;
   display: flex;
