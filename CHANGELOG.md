@@ -11,6 +11,7 @@
 
 * Refactor single page notification button component ([PR #5820](https://github.com/alphagov/govuk_publishing_components/pull/5820))
 * Improve wide table JS resize detection ([PR #5832](https://github.com/alphagov/govuk_publishing_components/pull/5832))
+* Refactor contents list with body component ([PR #5822](https://github.com/alphagov/govuk_publishing_components/pull/5822))
 
 ## 71.0.0
 
